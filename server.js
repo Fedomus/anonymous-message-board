@@ -27,6 +27,9 @@ app.use(helmet({
       imgSrc: ["'self'", 'cdn.freecodecamp.org'],
       'upgrade-insecure-requests': []
     }
+  },
+  referrerPolicy: {
+    policy: ["origin"],
   }
 }))
 app.enable('trust proxy')

@@ -33,7 +33,7 @@ module.exports = function (app) {
       })
       .then(response => {
         if (response.modifiedCount == 1){
-          res.send('success')
+          res.send('reported')
         }else{
           res.send('invalid data')
         }
@@ -49,7 +49,7 @@ module.exports = function (app) {
           if(response){
             res.send('success')
           } else {
-            res.send("invalid data")
+            res.send("incorrect password")
           }
           
         })
@@ -87,7 +87,7 @@ module.exports = function (app) {
         .catch(err => res.send(err))
         .then(result => {
           if(result.modifiedCount == 1){
-            res.send('success')
+            res.send('reported')
           } else {
             res.send('invalid data')
           }
@@ -101,7 +101,7 @@ module.exports = function (app) {
           if(result.modifiedCount == 1){
             res.send('success')
           } else {
-            res.send('invalid data')
+            res.send('incorrect password')
           }
         })
     });
