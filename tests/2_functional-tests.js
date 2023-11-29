@@ -159,8 +159,7 @@ suite('Functional Tests', function() {
 
             chai
             .request(server)
-            .get("/api/replies/test")
-            .send({thread_id: res.body.insertedId})
+            .get("/api/replies/test?thread_id="+res.body.insertedId)
             .end(function(err, res){
                 assert.equal(res.status, 200);
                 assert.isArray(res.body.replies)

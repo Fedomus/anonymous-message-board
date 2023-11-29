@@ -97,7 +97,8 @@ module.exports = class ThreadDAO {
       }, {
         fields: {
           reported: 0,
-          delete_password: 0
+          delete_password: 0,
+          replies: 1
         }
       });
       return thread

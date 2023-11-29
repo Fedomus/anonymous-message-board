@@ -18,7 +18,7 @@ module.exports = function (app) {
     .post((req, res, next) => {
       threads.createThread({
         ...req.body,
-        board: req.params.board
+        board: req.params.board||req.body.board
       })
         .catch(err =>res.send(err.message))
         .then(result =>{
@@ -58,16 +58,23 @@ module.exports = function (app) {
 
   app.route('/api/replies/:board')
 
-    .get((req, res, next) => {
-      threads.readThreadAndReplies(req.body)
-        .catch(err => res.send(err.message))
-        .then(result => {
-          res.json(result)
-        })
+  .get((req, res, next) => {
+    threads.readThreadAndReplies({
+      ...req.body,
+      board: req.params.board,
+      thread_id: req.query.thread_id
     })
+      .catch(err => res.send(err.message))
+      .then(result => {
+        res.json(result)
+      })
+  })
 
     .post((req, res, next) => {
-      threads.createReply(req.body)
+      threads.createReply({
+        ...req.body,
+        board: req.params.board||req.body.board
+      })
         .catch(err => res.send(err.message))
         .then(result => {
           res.json(result)
