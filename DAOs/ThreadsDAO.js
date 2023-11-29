@@ -14,12 +14,14 @@ module.exports = class ThreadDAO {
   async readThreads(board){
     try {
       const recentThreads = await this.client.db('messageboard').collection('threads')
-        .find({board},{
-          reported: 0,
-          delete_password: 0,
-          replies: 1,
-          "replies.reported": 0,
-          "replies.delete_password": 0
+        .find(
+          {board},
+          { projection: {
+            reported: 0,
+            delete_password: 0,
+            "replies.reported": 0,
+            "replies.delete_password": 0
+          }
         })
         .sort({bumped_on: -1})
         .limit(10)
@@ -96,15 +98,19 @@ module.exports = class ThreadDAO {
   async readThreadAndReplies(data){
     
     try {
-      let thread = await this.client.db('messageboard').collection('threads').findOne({
-        _id: new ObjectId(data.thread_id)
-      },{
-          reported: 0,
-          delete_password: 0,
-          replies: 1,
-          "replies.reported": 0,
-          "replies.delete_password": 0
-      });
+      let thread = await this.client.db('messageboard').collection('threads').findOne(
+        {
+          _id: new ObjectId(data.thread_id)
+        },
+        { 
+          projection: {
+            reported: 0,
+            delete_password: 0,
+            "replies.reported": 0,
+            "replies.delete_password": 0
+          }
+        }
+      );
       return thread
     } catch(e) {
       this.errorHandler(e.message)
