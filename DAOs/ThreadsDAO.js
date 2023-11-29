@@ -20,7 +20,7 @@ module.exports = class ThreadDAO {
           "replies.reported": 0,
           "replies.delete_password": 0
         })
-        .sort("bumped_on", -1)
+        .sort({bumped_on: -1})
         .limit(10)
         .toArray()
       if(recentThreads.length){
