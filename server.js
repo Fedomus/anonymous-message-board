@@ -29,7 +29,7 @@ app.use(helmet({
     }
   },
   referrerPolicy: {
-    policy: ["origin"],
+    policy: ["same-origin"],
   }
 }))
 app.enable('trust proxy')

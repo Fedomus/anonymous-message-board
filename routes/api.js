@@ -29,7 +29,7 @@ module.exports = function (app) {
     .put((req, res, next) => {
       threads.updateThread(req.body)
       .catch(err => {
-        res.send(err)
+        res.send(err.message)
       })
       .then(response => {
         if (response.modifiedCount == 1){
@@ -43,7 +43,7 @@ module.exports = function (app) {
     .delete((req, res, next) => {
       threads.deleteThread(req.body)
         .catch(err => {
-          res.send(err)
+          res.send(err.message)
         })
         .then(response => {
           if(response){
@@ -60,19 +60,15 @@ module.exports = function (app) {
 
     .get((req, res, next) => {
       threads.readThreadAndReplies(req.body)
-        .catch(err => res.send(err))
+        .catch(err => res.send(err.message))
         .then(result => {
-          if(result) {
-            res.json(result)
-          } else {
-            res.send('invalid data')
-          }
+          res.json(result)
         })
     })
 
     .post((req, res, next) => {
       threads.createReply(req.body)
-        .catch(err => res.send(err))
+        .catch(err => res.send(err.message))
         .then(result => {
           if(result.modifiedCount == 1){
             res.json(result)
@@ -84,7 +80,7 @@ module.exports = function (app) {
     
     .put((req, res, next) => {
       threads.updateReply(req.body)
-        .catch(err => res.send(err))
+        .catch(err => res.send(err.message))
         .then(result => {
           if(result.modifiedCount == 1){
             res.send('reported')
@@ -96,9 +92,9 @@ module.exports = function (app) {
 
     .delete((req, res, next) => {
       threads.deleteReply(req.body)
-        .catch(err => res.send(err))
+        .catch(err => res.send(err.message))
         .then(result => {
-          if(result.modifiedCount == 1){
+          if(result){
             res.send('success')
           } else {
             res.send('incorrect password')
