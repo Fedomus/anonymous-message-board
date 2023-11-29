@@ -17,6 +17,7 @@ module.exports = class ThreadDAO {
         .find({board},{
           reported: 0,
           delete_password: 0,
+          replies: 1,
           "replies.reported": 0,
           "replies.delete_password": 0
         })
@@ -25,7 +26,10 @@ module.exports = class ThreadDAO {
         .toArray()
       if(recentThreads.length){
         recentThreads.forEach(thread => {
-          if(thread.replies.length){
+
+          thread.replycount = thread.replies.length
+
+          if(thread.replycount > 3){
             thread.replies = thread.replies.slice(-3);
           }
         });
@@ -94,12 +98,12 @@ module.exports = class ThreadDAO {
     try {
       let thread = await this.client.db('messageboard').collection('threads').findOne({
         _id: new ObjectId(data.thread_id)
-      }, {
-        fields: {
+      },{
           reported: 0,
           delete_password: 0,
-          replies: 1
-        }
+          replies: 1,
+          "replies.reported": 0,
+          "replies.delete_password": 0
       });
       return thread
     } catch(e) {

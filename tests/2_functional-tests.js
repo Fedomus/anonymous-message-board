@@ -7,12 +7,12 @@ const threads = new ThreadsDAO();
 
 chai.use(chaiHttp);
 
+after(function(){
+    threads.deleteBoard("test")
+})
+
 suite('Functional Tests', function() {
 
-    after(function(){
-        threads.deleteBoard("test")
-    })
-    
     test('Creating a new thread: POST request to /api/threads/{board}', function(done){
         chai
         .request(server)
@@ -105,7 +105,7 @@ suite('Functional Tests', function() {
                 thread_id: res.body.insertedId
             })
             .end(function(err, res){
-                assert.equal(res.status, 200)
+                assert.equal(res.statusCode, 200)
                 assert.equal(res.text, 'reported')
             });
         })
@@ -122,11 +122,12 @@ suite('Functional Tests', function() {
             delete_password: 'test123'
         })
         .end(function(err, res){
+            let data = res.body;
             chai
             .request(server)
             .post('/api/replies/test')
             .send({
-                thread_id: res.body.insertedId,
+                thread_id: data.insertedId,
                 text: 'testing reply 1',
                 delete_password: 'test123'
             })
@@ -147,11 +148,14 @@ suite('Functional Tests', function() {
             delete_password: 'test123'
         })
         .end(function(err, res){
+
+            let data = res.body
+
             chai
             .request(server)
             .post("/api/replies/test")
             .send({
-                thread_id: res.body.insertedId,
+                thread_id: data.insertedId,
                 text: 'testing reply 2',
                 delete_password: 'test123'
             })
@@ -159,7 +163,7 @@ suite('Functional Tests', function() {
 
             chai
             .request(server)
-            .get("/api/replies/test?thread_id="+res.body.insertedId)
+            .get("/api/replies/test?thread_id="+data.insertedId)
             .end(function(err, res){
                 assert.equal(res.status, 200);
                 assert.isArray(res.body.replies)
