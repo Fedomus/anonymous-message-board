@@ -110,15 +110,16 @@ module.exports = class ThreadDAO {
 
     try {
       const id = new ObjectId();
+      const fechaHoy = new Date();
       const createdReply = await this.client.db('messageboard').collection('threads').updateOne(
         { _id: new ObjectId(data.thread_id) },
         {
-          $set: { bumped_on: new Date() },
+          $set: { bumped_on: fechaHoy },
           $push: {
             replies: {
               _id: id,
               text: data.text,
-              created_on: new Date(),
+              created_on: fechaHoy,
               delete_password: data.delete_password,
               reported: false
             }

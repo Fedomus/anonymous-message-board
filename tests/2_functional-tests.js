@@ -61,7 +61,7 @@ suite('Functional Tests', function() {
                 delete_password: 'incorrect'
             })
             .end(function(err, res){
-                assert.equal(res.text, "invalid data")
+                assert.equal(res.text, "incorrect password")
             });
         });
         done()
@@ -106,7 +106,7 @@ suite('Functional Tests', function() {
             })
             .end(function(err, res){
                 assert.equal(res.status, 200)
-                assert.equal(res.text, 'success')
+                assert.equal(res.text, 'reported')
             });
         })
         done();
@@ -159,36 +159,6 @@ suite('Functional Tests', function() {
 
             chai
             .request(server)
-            .post("/api/replies/test")
-            .send({
-                thread_id: res.body.insertedId,
-                text: 'testing reply 3',
-                delete_password: 'test123'
-            })
-            .end()
-
-            chai
-            .request(server)
-            .post("/api/replies/test")
-            .send({
-                thread_id: res.body.insertedId,
-                text: 'testing reply 4',
-                delete_password: 'test123'
-            })
-            .end()
-
-            chai
-            .request(server)
-            .post("/api/replies/test")
-            .send({
-                thread_id: res.body.insertedId,
-                text: 'testing reply 5',
-                delete_password: 'test123'
-            })
-            .end()
-
-            chai
-            .request(server)
             .get("/api/replies/test")
             .send({thread_id: res.body.insertedId})
             .end(function(err, res){
@@ -215,7 +185,7 @@ suite('Functional Tests', function() {
             .post('/api/replies/test')
             .send({
                 thread_id: threadId,
-                text: 'testing reply 6',
+                text: 'testing reply 3',
                 delete_password: 'test123'
             })
             .end(function(err, res){
@@ -227,7 +197,7 @@ suite('Functional Tests', function() {
                     delete_password: 'incorrect'
                 })
                 .end(function(err, res){
-                    assert.equal(res.text, 'invalid data')
+                    assert.equal(res.text, 'incorrect password')
                 })
             })
         })
@@ -249,7 +219,7 @@ suite('Functional Tests', function() {
             .post('/api/replies/test')
             .send({
                 thread_id: threadId,
-                text: 'testing reply 7',
+                text: 'testing reply 4',
                 delete_password: 'test123'
             })
             .end(function(err, res){
@@ -285,7 +255,7 @@ suite('Functional Tests', function() {
             .post('/api/replies/test')
             .send({
                 thread_id: threadId,
-                text: 'testing reply 8',
+                text: 'testing reply 5',
                 delete_password: 'test123'
             })
             .end(function(err, res){
@@ -298,7 +268,7 @@ suite('Functional Tests', function() {
                 })
                 .end(function(err, res){
                     assert.equal(res.status, 200)
-                    assert.equal(res.text, 'success')
+                    assert.equal(res.text, 'reported')
                 })
             })
         })

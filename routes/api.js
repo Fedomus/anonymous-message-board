@@ -70,11 +70,7 @@ module.exports = function (app) {
       threads.createReply(req.body)
         .catch(err => res.send(err.message))
         .then(result => {
-          if(result.modifiedCount == 1){
-            res.json(result)
-          } else {
-            res.send('invalid data')
-          }
+          res.json(result)
         })
     })
     
@@ -94,7 +90,7 @@ module.exports = function (app) {
       threads.deleteReply(req.body)
         .catch(err => res.send(err.message))
         .then(result => {
-          if(result){
+          if(result.modifiedCount == 1){
             res.send('success')
           } else {
             res.send('incorrect password')
